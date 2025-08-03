@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern JavaScript Cheatsheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        js: {
+                            yellow: '#F7DF1E',
+                            dark: '#1E1E1E',
+                            light: '#F5F5F5'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block {
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+        .active-category {
+            background-color: rgba(247, 223, 30, 0.2);
+            border-left: 4px solid #F7DF1E;
+        }
+        .search-highlight {
+            background-color: rgba(247, 223, 30, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-js-light dark:bg-js-dark transition-colors duration-200 min-h-screen">
+    <!-- Header -->
+    <header class="bg-js-yellow text-gray-900 shadow-lg sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <i class="fab fa-js text-4xl mr-4"></i>
+                    <div>
+                        <h1 class="text-3xl font-bold">Modern JavaScript Cheatsheet</h1>
+                        <p class="text-gray-800">ES6+ Essentials at Your Fingertips</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2 rounded-full bg-gray-900 text-js-yellow hover:bg-gray-800 transition">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                    <a href="https://github.com/your-org/js-cheatsheet" class="p-2 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Search and Filter -->
+        <div class="mb-8 bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+            <div class="relative mb-6">
+                <input type="text" id="search" placeholder="Search JavaScript concepts..." 
+                       class="w-full px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-js-yellow focus:border-transparent transition">
+                <i class="fas fa-search absolute right-6 top-4 text-gray-400"></i>
+            </div>
+            
+            <div class="flex flex-wrap gap-2">
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-js-yellow hover:text-gray-900 transition" data-category="all">All</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-js-yellow hover:text-gray-900 transition" data-category="variables">Variables</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-js-yellow hover:text-gray-900 transition" data-category="functions">Functions</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-js-yellow hover:text-gray-900 transition" data-category="arrays">Arrays</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-js-yellow hover:text-gray-900 transition" data-category="objects">Objects</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-js-yellow hover:text-gray-900 transition" data-category="dom">DOM</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-js-yellow hover:text-gray-900 transition" data-category="async">Async</button>
+                <button class="category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-js-yellow hover:text-gray-900 transition" data-category="es6">ES6+</button>
+            </div>
+        </div>
+
+        <!-- Cheatsheet Content -->
+        <div id="cheatsheet-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Variables -->
+            <div class="cheat-card bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition hover:shadow-lg" data-categories="variables es6">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-js-yellow text-gray-900 p-3 rounded-lg mr-4">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Variables</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="code-block">
+                            <button class="copy-btn px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <pre><code class="language-javascript">// Modern variable declarations
+const PI = 3.14;      // Cannot be reassigned
+let score = 100;      // Block-scoped, mutable
+var oldWay = true;    // Avoid (function-scoped)</code></pre>
+                        </div>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <pre><code class="language-javascript">// Template literals (ES6)
+const name = 'Alice';
+console.log(`Hello ${name}!`);</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Functions -->
+            <div class="cheat-card bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition hover:shadow-lg" data-categories="functions es6">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-js-yellow text-gray-900 p-3 rounded-lg mr-4">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Functions</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="code-block">
+                            <button class="copy-btn px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <pre><code class="language-javascript">// Arrow functions (ES6+)
+const add = (a, b) => a + b;
+
+// Default parameters
+const greet = (name = 'Guest') => {
+    return `Hello ${name}!`;
+}</code></pre>
+                        </div>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <pre><code class="language-javascript">// Rest parameters
+function sum(...numbers) {
+    return numbers.reduce((a, b) => a + b);
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arrays -->
+            <div class="cheat-card bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition hover:shadow-lg" data-categories="arrays es6">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-js-yellow text-gray-900 p-3 rounded-lg mr-4">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Arrays</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="code-block">
+                            <button class="copy-btn px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <pre><code class="language-javascript">// Modern array methods
+const nums = [1, 2, 3];
+
+// Map (transform)
+const doubled = nums.map(n => n * 2);
+
+// Filter
+const evens = nums.filter(n => n % 2 === 0);
+
+// Reduce
+const sum = nums.reduce((a, b) => a + b, 0);</code></pre>
+                        </div>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <pre><code class="language-javascript">// Spread operator (ES6)
+const arr1 = [1, 2];
+const arr2 = [3, 4];
+const combined = [...arr1, ...arr2];</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Objects -->
+            <div class="cheat-card bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition hover:shadow-lg" data-categories="objects es6">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-js-yellow text-gray-900 p-3 rounded-lg mr-4">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Objects</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="code-block">
+                            <button class="copy-btn px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <pre><code class="language-javascript">// Object shorthand (ES6)
+const name = 'Alice';
+const age = 30;
+
+const person = { name, age };
+
+// Method shorthand
+const obj = {
+    greet() {
+        console.log('Hello!');
+    }
+};</code></pre>
+                        </div>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <pre><code class="language-javascript">// Destructuring
+const { name, age } = person;
+
+// Spread operator
+const newPerson = { ...person, city: 'NY' };</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOM -->
+            <div class="cheat-card bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition hover:shadow-lg" data-categories="dom">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-js-yellow text-gray-900 p-3 rounded-lg mr-4">
+                            <i class="fas fa-code-branch"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">DOM Manipulation</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="code-block">
+                            <button class="copy-btn px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <pre><code class="language-javascript">// Select elements
+const btn = document.querySelector('#myBtn');
+const allDivs = document.querySelectorAll('.item');
+
+// Event listeners
+btn.addEventListener('click', (e) => {
+    console.log('Button clicked!', e.target);
+});</code></pre>
+                        </div>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <pre><code class="language-javascript">// Create and append
+const newDiv = document.createElement('div');
+newDiv.textContent = 'Hello!';
+document.body.appendChild(newDiv);</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Async -->
+            <div class="cheat-card bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition hover:shadow-lg" data-categories="async es6">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-js-yellow text-gray-900 p-3 rounded-lg mr-4">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white">Async/Await</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="code-block">
+                            <button class="copy-btn px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <pre><code class="language-javascript">// Promises
+fetch('https://api.example.com/data')
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err));</code></pre>
+                        </div>
+                        
+                        <div class="code-block">
+                            <button class="copy-btn px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <pre><code class="language-javascript">// Async/await (ES2017)
+async function getData() {
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.error(err);
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fab fa-js text-js-yellow mr-2"></i>
+                        JavaScript Cheatsheet
+                    </h2>
+                    <p class="text-gray-400 mt-2">ES6+ Essentials for Modern Development</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-js-yellow transition">GitHub</a>
+                    <a href="#" class="hover:text-js-yellow transition">Docs</a>
+                    <a href="#" class="hover:text-js-yellow transition">About</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-500">
+                <p>Created with ♥ by your-org | MIT License | Last updated: 2023</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Initialize syntax highlighting
+        document.addEventListener('DOMContentLoaded', () => {
+            hljs.highlightAll();
+            
+            // Copy to clipboard functionality
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const codeBlock = btn.nextElementSibling;
+                    const code = codeBlock.querySelector('code').textContent;
+                    navigator.clipboard.writeText(code);
+                    
+                    // Visual feedback
+                    btn.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        btn.innerHTML = '<i class="fas fa-copy"></i>';
+                    }, 2000);
+                });
+            });
+
+            // Category filtering
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const cheatCards = document.querySelectorAll('.cheat-card');
+            
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active button
+                    categoryBtns.forEach(b => b.classList.remove('active-category'));
+                    btn.classList.add('active-category');
+                    
+                    const category = btn.dataset.category;
+                    
+                    // Filter cards
+                    cheatCards.forEach(card => {
+                        if (category === 'all' || card.dataset.categories.includes(category)) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.getElementById('search');
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                cheatCards.forEach(card => {
+                    const cardText = card.textContent.toLowerCase();
+                    const headings = card.querySelectorAll('h3, code');
+                    
+                    // Remove previous highlights
+                    headings.forEach(el => {
+                        el.innerHTML = el.textContent;
+                    });
+                    
+                    if (searchTerm === '') {
+                        card.style.display = 'block';
+                    } else if (cardText.includes(searchTerm)) {
+                        card.style.display = 'block';
+                        
+                        // Highlight matches
+                        headings.forEach(el => {
+                            const text = el.textContent;
+                            const regex = new RegExp(searchTerm, 'gi');
+                            el.innerHTML = text.replace(regex, match => 
+                                `<span class="search-highlight">${match}</span>`);
+                        });
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
